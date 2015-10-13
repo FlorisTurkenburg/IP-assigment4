@@ -19,4 +19,5 @@ $smarty->assign('paperport', $PAPER_PORT);
 
 // Display page.
 $smarty->display('tpl/index.html');
+
 ?>
