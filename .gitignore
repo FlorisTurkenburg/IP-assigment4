@@ -6,6 +6,7 @@
 
 *.cgi
 config.ini
+*.ini
 
 # Precompiled Headers
 *.gch
