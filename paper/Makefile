@@ -8,14 +8,14 @@ all: paperclient paperserver papers.cgi paperinfo.cgi
 clean:
 	rm -f paperclient.o paperserver_clnt.o paperserver_xdr.o paperserver_svc.o \
 	paperserver.o paperserver_clnt.c paperserver.h paperserver_xdr.c \
-	paperserver_svc.c paperclient paperserver papers.cgi papers.o paperinfo.cgi \
+	paperserver_svc.c paperclient paperserver ../web/cgi-bin/papers.cgi papers.o ../web/cgi-bin/paperinfo.cgi \
 	paperinfo.o
 
 papers.cgi: papers.o paperserver_clnt.o paperserver_xdr.o 
-	$(CC) -o papers.cgi papers.o paperserver_clnt.o paperserver_xdr.o -lnsl  
+	$(CC) -o ../web/cgi-bin/papers.cgi papers.o paperserver_clnt.o paperserver_xdr.o -lnsl  
 
 paperinfo.cgi: paperinfo.o paperserver_clnt.o paperserver_xdr.o 
-	$(CC) -o paperinfo.cgi paperinfo.o paperserver_clnt.o paperserver_xdr.o -lnsl
+	$(CC) -o ../web/cgi-bin/paperinfo.cgi paperinfo.o paperserver_clnt.o paperserver_xdr.o -lnsl
 
 paperclient: paperclient.o paperserver_clnt.o paperserver_xdr.o 
 	$(CC) -o paperclient paperclient.o paperserver_clnt.o paperserver_xdr.o -lnsl  
@@ -29,10 +29,10 @@ paperserver_clnt.c paperserver.h paperserver_xdr.c paperserver_svc.c: paperserve
 paperclient.o: paperclient.c paperserver.h
 	$(CC) $(CFLAGS) -c -o paperclient.o paperclient.c
 
-papers.o: papers.c paperserver.h
+papers.o: papers.c paperserver.h config.h
 	$(CC) $(CFLAGS) -c -o papers.o papers.c
 
-paperinfo.o: paperinfo.c paperserver.h
+paperinfo.o: paperinfo.c paperserver.h config.h
 	$(CC) $(CFLAGS) -c -o paperinfo.o paperinfo.c
 
 paperserver_clnt.o: paperserver_clnt.c paperserver.h

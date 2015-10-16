@@ -7,6 +7,7 @@
 #include <arpa/inet.h>
 #include <sys/stat.h>
 #include "paperserver.h"
+#include "config.h"
 
 CLIENT *cl;
 
@@ -25,7 +26,7 @@ void get_article_list() {
     if (result->err == 0) {
         article = &result->list_res_u.list;
         printf("Content-Type: application/json\n\n");
-        printf("\n[\n");
+        printf("[\n");
         while (article) {
             printf("\t{\n");
             printf("\t\t\"id\": %ld,\n", article->num);
@@ -49,10 +50,8 @@ void get_article_list() {
 
 
 int main(int argc, char **argv) {
-    char *hostname;
     
-    hostname = "localhost";
-    cl = clnt_create(hostname, PAPERSERVER_PROG, PAPERSERVER_VERS, "tcp");
+    cl = clnt_create(PAPER_ADDRESS, PAPERSERVER_PROG, PAPERSERVER_VERS, "tcp");
     if (cl == NULL) {
         perror("Error creating RPC client!");
         exit(1);

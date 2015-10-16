@@ -1,33 +1,24 @@
 <?php
-    require('index.php');
 
-    echo "WTF!";
-?>
+    // Initialize Smarty.
+    $topdir=realpath(".");
+    include('smarty/Smarty.class.php');
+    $smarty = new Smarty;
+    $smarty->setTemplateDir($topdir.'/smarty/templates');
+    $smarty->setCompileDir($topdir.'/smarty/templates_c');
+    $smarty->setCacheDir($topdir.'/smarty/cache');
+    $smarty->setConfigDir($topdir.'/smarty/configs');
 
-<script src="tpl/js/jquery.js"></script>
-<!-- {block name="content"} -->
-<div id="paperlist"></div>
+    // Load config and assign it to Smarty variables.
+    include('config.php');
+    $smarty->assign('phpbase', $WEB_BASEPHP);
+    $smarty->assign('cgibase', $WEB_BASECGI);
+    $smarty->assign('hotelgwaddress', $HOTELGW_ADDRESS);
+    $smarty->assign('hotelgwport', $HOTELGW_PORT);
+    $smarty->assign('paperaddress', $PAPER_ADDRESS);
+    $smarty->assign('paperport', $PAPER_PORT);
+    $smarty->display('extends:tpl/index.html|tpl/papers.html');
 
-<script>
-        $.get("http://127.0.0.1/~floris/cgi-bin/papers.cgi", dataType="json" )
-            .done(function(data) {
-                var obj = jQuery.parseJSON(data);
-                var list = "";
-                jQuery.each(obj, function(index, data) {
-                    list += "<li class=\"paper\"><span class=\"id\">["+data.id+"]</span>&emsp;<span class=\"author\">"+data.author+"</span>&emsp;<a class=\"title\">"+data.title+"</a></li>";
-                });
-                
-                $('#paperlist').html("<ul class=\"paperlist\">"+list+"</ul>");
-
-            }
-        );
-    
-</script>
-<!-- {/block} -->
-<?php
-
-    // $smarty->display('extends:tpl/index.html|papers.php');
-    // $smarty->display('tpl/papers.html');
 ?>
 
 

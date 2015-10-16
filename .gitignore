@@ -4,6 +4,9 @@
 *.obj
 *.elf
 
+*.cgi
+config.ini
+
 # Precompiled Headers
 *.gch
 *.pch

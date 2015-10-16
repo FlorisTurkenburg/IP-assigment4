@@ -1,0 +1,30 @@
+{extends file="tpl/index.html"}
+{block name="content"}
+<div id="paperlist"></div>
+<script src="tpl/js/jquery.js"></script>
+<script src="tpl/js/bootstrap.min.js"></script>
+
+{literal}
+<script>
+    // var url = "http://127.0.0.1/~floris/cgi-bin/papers.cgi";
+    var url = "http://127.0.0.1{/literal}{$cgibase}{literal}/papers.cgi";
+    // var url = "http://127.0.0.1"+<?php echo $cgibase; ?>+"/papers.cgi";
+
+    $.get(url, dataType="json" )
+        .done(function(data) {
+            var obj = data;
+            var list = "";
+            jQuery.each(obj, function(index, data) {
+                list += "<li class=\"paper\"><span class=\"id\">["+data.id+"]</span>&emsp;<span class=\"author\">"+data.author+"</span>&emsp;<a class=\"title\">"+data.title+"</a></li>";
+            });
+            
+            $('#paperlist').html("<ul class=\"paperlist\">"+list+"</ul>");
+
+
+        }
+    );
+    
+
+</script>
+{/literal}
+{/block}

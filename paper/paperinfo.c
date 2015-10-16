@@ -7,6 +7,7 @@
 #include <arpa/inet.h>
 #include <sys/stat.h>
 #include "paperserver.h"
+#include "config.h"
 
 CLIENT *cl;
 
@@ -45,10 +46,7 @@ void get_article_info(char *article) {
 
 
 int main(int argc, char **argv) {
-    char *hostname;
-
-    hostname = "localhost";
-    cl = clnt_create(hostname, PAPERSERVER_PROG, PAPERSERVER_VERS, "tcp");
+    cl = clnt_create(PAPER_ADDRESS, PAPERSERVER_PROG, PAPERSERVER_VERS, "tcp");
     if (cl == NULL) {
         perror("Error creating RPC client!");
         exit(1);
