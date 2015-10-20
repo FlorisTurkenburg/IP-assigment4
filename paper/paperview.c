@@ -11,32 +11,19 @@
 
 CLIENT *cl;
 
+void fetch_article(char *article) {
+    struct fetch_article_out *article_content;
 
-void get_article_info(char *article) {
-    struct article_info_out art;
-    info_res *result;
     article_num num = atol(article);
+    
+    article_content = fetch_1(&num, cl);
 
-
-    result = info_1(&num, cl);
-
-    if (result == NULL) {
-        perror("Error while calling server");
-        return;
-    }
-
-    if (result->err == 0) {
-        art = result->info_res_u.info;
-        printf("Content-Type: application/json\n\n");
-        // printf("[\n");
-        printf("{\n");
-        printf("\t\"id\": %ld,\n", num);
-        printf("\t\"title\": \"%s\",\n", art.title);
-        printf("\t\"author\": \"%s\"\n", art.author);
-        printf("}\n");
-        // printf("]\n");
-        // printf("%s\t%s\n", art.author, art.title);
-        
+    if (article_content != NULL) {
+        printf("Content-Type: application/pdf\n\n");
+        int i;
+        for (i = 0; i < article_content->content.content_len; i++) {
+            printf("%c", article_content->content.content_val[i]);
+        }
     }
 
 
@@ -73,7 +60,7 @@ int main(int argc, char **argv) {
             key = strdup(qs);
 
             if (!strcmp(key, "id")) {
-                get_article_info(value);
+                fetch_article(value);
                 
             }
 
