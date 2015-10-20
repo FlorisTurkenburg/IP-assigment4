@@ -14,6 +14,7 @@ article_num *add_1_svc(add_article_in *in, struct svc_req *rqstp) {
     
     new_paper->author = strdup(in->author);
     new_paper->title = strdup(in->title);
+    new_paper->filename = strdup(in->filename);
     // new_paper->content.content_len = in->content.content_len;
     // new_paper->content.content_val = malloc(in->content.content_len * sizeof(char));
     // memcpy(new_paper->content.content_val, in->content.content_val, in->content.content_len * sizeof(char));
@@ -47,6 +48,7 @@ article_num *add_1_svc(add_article_in *in, struct svc_req *rqstp) {
             // printf("curpaper_author %s\tcurpaper_title %s\n", cur_paper->author, cur_paper->title);
             if (strcmp(cur_paper->author, strdup(in->author)) == 0 && strcmp(cur_paper->title, strdup(in->title)) == 0) {
                 // Paper already exists, update and return number
+                cur_paper->filename = strdup(in->filename);
                 cur_paper->content.content_len = in->content.content_len;
                 cur_paper->content.content_val = realloc(cur_paper->content.content_val, in->content.content_len * sizeof(char));
                 memcpy(cur_paper->content.content_val, in->content.content_val, in->content.content_len * sizeof(char)); 
@@ -265,6 +267,7 @@ fetch_article_out *fetch_1_svc(article_num *num, struct svc_req *rqstp) {
 
     while (paper != NULL) {
         if (paper->num == *num) {
+            article->filename = strdup(paper->filename);
             article->content.content_len = paper->content.content_len;
             article->content.content_val = malloc(paper->content.content_len * sizeof(char));
             memcpy(article->content.content_val, paper->content.content_val, paper->content.content_len * sizeof(char));
@@ -280,6 +283,7 @@ fetch_article_out *fetch_1_svc(article_num *num, struct svc_req *rqstp) {
             }
         }
     }
+    article->filename = NULL;
     article->content.content_len = 0;
     article->content.content_val = NULL;
 

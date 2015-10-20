@@ -1,6 +1,7 @@
 struct add_article_in {
     string author<>;  
     string title<>;
+    string filename<>;
     opaque content<>;
 };
 
@@ -8,6 +9,7 @@ struct articles {
     long num;
     string author<>;
     string title<>;
+    string filename<>;
     opaque content<>;
     struct articles *next;
 };
@@ -25,6 +27,7 @@ struct article_info_out {
 };
 
 struct fetch_article_out {
+    string filename<>;
     opaque content<>;
 };
 

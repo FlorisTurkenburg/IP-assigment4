@@ -19,7 +19,11 @@ void fetch_article(char *article) {
     article_content = fetch_1(&num, cl);
 
     if (article_content != NULL) {
-        printf("Content-Type: application/pdf\n\n");
+        if (article_content->filename != NULL) {
+            printf("Content-Disposition: filename=\"%s\"\n\n", article_content->filename);
+            
+        }
+        // printf("Content-Type: application/msword\n\n");
         int i;
         for (i = 0; i < article_content->content.content_len; i++) {
             printf("%c", article_content->content.content_val[i]);

@@ -7,6 +7,7 @@
 #include <arpa/inet.h>
 #include <sys/stat.h>
 #include "paperserver.h"
+// #include <magic.h>
 
 CLIENT *cl;
 
@@ -49,6 +50,7 @@ void add_article(char *author, char *title, char *filename) {
     in->author = author;
     // in->title = strdup(title);
     in->title = title;
+    in->filename = filename;
 
     in->content.content_val = malloc(sizeof(char) * file_stat.st_size);
     in->content.content_len = fread(in->content.content_val, 1, file_stat.st_size, fp);
@@ -78,6 +80,14 @@ void fetch_article(char *article) {
     article_content = fetch_1(&num, cl);
 
     if (article_content != NULL) {
+        // const char *magic_full;
+        // magic_t magic_cookie;
+        // magic_cookie = magic_open(MAGIC_MIME);
+        // magic_load(magic_cookie, NULL);
+        // magic_full = magic_buffer(magic_cookie, article_content->content.content_val, article_content->content.content_len);
+        // printf("magic_full: %s\n", magic_full );
+        // magic_close(magic_cookie);
+
         int i;
         for (i = 0; i < article_content->content.content_len; i++) {
             printf("%c", article_content->content.content_val[i]);

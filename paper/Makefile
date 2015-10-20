@@ -21,7 +21,7 @@ paperinfo.cgi: paperinfo.o paperserver_clnt.o paperserver_xdr.o
 	$(CC) -o ../web/cgi-bin/paperinfo.cgi paperinfo.o paperserver_clnt.o paperserver_xdr.o -lnsl
 
 paperclient: paperclient.o paperserver_clnt.o paperserver_xdr.o 
-	$(CC) -o paperclient paperclient.o paperserver_clnt.o paperserver_xdr.o -lnsl  
+	$(CC) -o paperclient paperclient.o paperserver_clnt.o paperserver_xdr.o -lnsl 
 
 paperserver: paperserver.o paperserver_svc.o paperserver_xdr.o
 	$(CC) -o paperserver paperserver.o paperserver_svc.o paperserver_xdr.o -lnsl 
@@ -30,7 +30,7 @@ paperserver_clnt.c paperserver.h paperserver_xdr.c paperserver_svc.c: paperserve
 	rpcgen paperserver.x
 
 paperclient.o: paperclient.c paperserver.h
-	$(CC) $(CFLAGS) -c -o paperclient.o paperclient.c
+	$(CC) $(CFLAGS) -c -o paperclient.o paperclient.c 
 
 papers.o: papers.c paperserver.h config.h
 	$(CC) $(CFLAGS) -c -o papers.o papers.c
