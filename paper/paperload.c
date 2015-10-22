@@ -8,24 +8,24 @@
 #include <sys/stat.h>
 #include "paperserver.h"
 #include "config.h"
-#include "getcgivars.h"
+#include <ccgi.h>
 
 CLIENT *cl;
 
-void add_article(char *author, char *title, char *filename) {
+void add_article(char *author, char *title, char *tmp_filename, char *filename) {
     struct add_article_in *in;
     article_num *num;
 
     FILE *fp;
     struct stat file_stat;
 
-    fp = fopen(filename, "rb");
+    fp = fopen(tmp_filename, "rb");
     if (fp == NULL) {
         perror("Error when opening file");
         return;
     }
 
-    stat(filename, &file_stat);
+    stat(tmp_filename, &file_stat);
 
     in = (struct add_article_in *) malloc(sizeof(struct add_article_in));
 
@@ -59,16 +59,10 @@ void add_article(char *author, char *title, char *filename) {
 
 
 int main(int argc, char **argv) {
-    char **cgivars;
+    CGI_varlist *varlist;
+    CGI_value *value;
     char *author;
     char *title;
-    char *file;
-
-    if (strcmp(getenv("REQUEST_METHOD"), "POST")) {
-        exit(1);
-    }
-
-
 
     cl = clnt_create(PAPER_ADDRESS, PAPERSERVER_PROG, PAPERSERVER_VERS, "tcp");
     if (cl == NULL) {
@@ -77,45 +71,28 @@ int main(int argc, char **argv) {
     }
 
 
-    
-    cgivars = getcgivars();
-    int i;
-    // for (i = 0; cgivars[i]; i += 2) {
-    //     if (!strcmp(cgivars[i], "author")) {
-    //         author = strdup(cgivars[i+1]);
-    //     }
-    //     else if (!strcmp(cgivars[i], "title")) {
-    //         title = strdup(cgivars[i+1]);
-    //     }
-    //     else if (!strcmp(cgivars[i], "file")) {
-    //         file = strdup(cgivars[i+1]);
-    //     }
-    // }
-    //add_article(author, title, file);
-    // printf("Content-type: text/html\n\n") ;
-    
-    // /** Finally, print out the complete HTML response page.         **/
-    // printf("<html>\n") ;
-    // printf("<head><title>CGI Results</title></head>\n") ;
-    // printf("<body>\n") ;
-    // printf("<h1>Hello, world.</h1>\n") ;
-    // printf("Your CGI input variables were:\n") ;
-    // printf("<ul>\n") ;
-    
-    // /** Print the CGI variables sent by the user.  Note the list of **/
-    // /**   variables alternates names and values, and ends in NULL.  **/
-    // for (i=0; cgivars[i]; i+= 2)
-    //     printf("<li>[%s] = [%s]\n", cgivars[i], cgivars[i+1]) ;
-        
-    // printf("</ul>\n") ;
-    // printf("</body>\n") ;
-    // printf("</html>\n") ;
-
-    
-    for (i = 0; cgivars[i]; i++) {
-        free(cgivars[i]);
+    fputs("Content-type: text/plain\r\n\r\n", stdout);
+    varlist = CGI_get_all("/tmp/cgi-upload-XXXXXX");
+    author = CGI_lookup(varlist, "author");
+    title = CGI_lookup(varlist, "title");
+    value = CGI_lookup_all(varlist, "fileToUpload");
+    if (value == 0 || value[1] == 0) {
+        fputs("No file was uploaded\r\n", stdout);
     }
-    free(cgivars);
+    else {
+        printf("Author: %s\n Title: %s\n", author, title);
+        printf("Your file \"%s\" was uploaded to my file \"%s\"\r\n",
+            value[1], value[0]);
+
+        add_article(author, title, strdup(value[0]), strdup(value[1]));
+        /* Do something with the file here */
+
+        unlink(value[0]);
+    }
+    CGI_free_varlist(varlist);
+
+
+
 
 
 
