@@ -1,8 +1,12 @@
 {extends file="tpl/index.html"}
 {block name="htitle" prepend}Paperinfo | {/block}
 {block name="content"}
+{if $new}
+    <p class="bg-success">The paper was successfully uploaded to the server.</p>
+{/if}
+
 <div id="paperlist"></div>
-<script src="tpl/js/jquery.js"></script>
+<script src="{$phpbase}/tpl/js/jquery.js"></script>
 
 
 {literal}

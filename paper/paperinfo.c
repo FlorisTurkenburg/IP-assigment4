@@ -59,12 +59,12 @@ int main(int argc, char **argv) {
 
     value = CGI_lookup(varlist, "id");
 
-    CGI_free_varlist(varlist);  /* free variable list */
 
     cl = clnt_create(PAPER_ADDRESS, PAPERSERVER_PROG, PAPERSERVER_VERS, "tcp");
     if (cl == NULL) {
         fputs("Content-type: text/plain\r\n\r\n", stdout);
         perror("Error creating RPC client!");
+        CGI_free_varlist(varlist);  /* free variable list */
         exit(1);
     }
 
@@ -76,6 +76,7 @@ int main(int argc, char **argv) {
         printf("id value missing\n\n");
     }
 
+    CGI_free_varlist(varlist);  /* free variable list */
 
 
     clnt_destroy(cl);

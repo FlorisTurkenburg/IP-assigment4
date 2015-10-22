@@ -18,13 +18,8 @@
     $smarty->assign('paperaddress', $PAPER_ADDRESS);
     $smarty->assign('paperport', $PAPER_PORT);
 
-    $smarty->assign('paper_id', $_GET['id']);
-    if (isset($_GET['new'])) {
-        $smarty->assign('new', $_GET['new']);
-    }
+    $smarty->assign('reason', $_GET['reason']);
 
-    $smarty->display('extends:tpl/index.html|tpl/paperinfo.html');
+    $smarty->display('extends:tpl/index.html|tpl/papererror.html');
 
 ?>
-
-

@@ -3,11 +3,19 @@
 {block name="content"}
 
 <form action="{$cgibase}/paperload.cgi" method="post" enctype="multipart/form-data">
-    Author: <input type="text" name="author" id="author"></br>
-    Title: <input type="text" name="title" id="title"></br>
-    Select file to upload:
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload file" name="submit">
+    <div class="form-group">
+        <label for="author">Author</label>
+        <input type="text" class="form-control" name="author" id="author" placeholder="Author name">
+    </div>
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" name="title" id="title" placeholder="Paper title">
+    </div>
+    <div class="form-group">
+        <label for="fileToUpload">Select file to upload:</label>
+        <input type="file" name="fileToUpload" id="fileToUpload">
+    </div>
+    <button type="submit" class="btn btn-default">Upload paper</button>
 </form>
 
 {/block}
