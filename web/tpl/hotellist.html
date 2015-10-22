@@ -1,0 +1,20 @@
+{extends file="tpl/index.html"}
+{block name="htitle" prepend}Hotel List | {/block}
+{block name="content"}
+<table class="roomlist">
+<thead>
+<tr><th>Room Type</th><th>Free Rooms</th></tr>
+</thead>
+    {assign var=types value=[A,B,C]}
+<tbody>
+
+    {for $i=0 to 2}
+    <tr class="room"><td class="type">{$types[$i]}</td><td class="count">{$response[$i]}</td></tr>
+    {/for}
+
+<!--<tr class="room"><td class="type">A</td><td class="count">10</td></tr>-->
+<!--<tr class="room"><td class="type">B</td><td class="count">20</td></tr>-->
+<!--<tr class="room"><td class="type">C</td><td class="count">20</td></tr>-->
+</tbody>
+</table>
+{/block}

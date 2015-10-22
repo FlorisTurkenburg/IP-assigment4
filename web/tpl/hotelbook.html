@@ -1,0 +1,24 @@
+{extends file="tpl/index.html"}
+{block name="htitle" prepend}Hotel Book | {/block}
+{block name="content"}
+
+
+<!--<div class="alert alert-success" role="alert">-->
+    <!--<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>-->
+    <!--<span class="sr-only">Success:</span>-->
+    {$flash_msg}
+<!--</div>-->
+
+<h1>Book a room</h1>
+        <br>
+<form action="hotelbook.php" method="POST">
+    <input type="text" name="type" autocomplete="off" placeholder="Room type. 1, 2 or 3" >
+    <br><br>
+    <input type="text" name="name" autocomplete="off" placeholder="Name" >
+    <br><br>
+    <input type="submit" value="Submit">
+</form>
+
+
+
+{/block}
