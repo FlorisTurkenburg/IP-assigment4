@@ -39,11 +39,15 @@ function pop_flash_message() {
     }
     return $msg;
 }
+ini_set('display_errors', 'On'); //debugging
 
 if($_SERVER['REQUEST_METHOD'] == 'GET') {
     //Add error/success messages if there is any
+    session_start();
     $flash_msg = pop_flash_message();
+    $success = isset($_SESSION['success']) && $_SESSION['success'];
     $smarty->assign('flash_msg', $flash_msg);
+    $smarty->assign('success', $success);
     // Display page.
     $smarty->display('tpl/hotelbook.html');
 }
@@ -51,11 +55,13 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
 if($_SERVER['REQUEST_METHOD'] == 'POST' &&
     isset($_POST['type']) &&
     isset($_POST['name'])){
-
+    session_start();
+    $_SESSION['success'] = null;
     //form validation
     $type = $_POST['type'];
     if($type != 1 && $type != 2 && $type != 3 ){
         $_SESSION['flash_msg'] = "Wrong room type";
+        $_SESSION['success'] = false;
         redirect($WEB_BASEPHP."/hotelbook.php");
     }
 
@@ -76,8 +82,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' &&
 
     $response = substr($response, 0, -1); //trim the new line char at the end
     $_SESSION['flash_msg'] = "Successfully booked room type:".$type." for: ".$name;
+    $_SESSION['success'] = true;
 
     //redirect to GET hotelbook.php
     redirect($WEB_BASEPHP."/hotelbook.php");
 }
+
 ?>
