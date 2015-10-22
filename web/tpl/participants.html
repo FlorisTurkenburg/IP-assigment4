@@ -1,4 +1,6 @@
-
+{extends file="tpl/index.html"}
+{block name="htitle" prepend}Hotel List | {/block}
+{block name="content"}
 <h1>Participants</h1>
         {if $noguests }
         There are no registered guests yet.
@@ -8,3 +10,4 @@
     <li>{$guest}</li>
     {/foreach}
 </ol>
+{/block}
