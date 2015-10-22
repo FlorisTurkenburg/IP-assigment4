@@ -1,0 +1,13 @@
+{extends file="tpl/index.html"}
+{block name="htitle" prepend}Paper upload | {/block}
+{block name="content"}
+
+<form action="{$cgibase}/paperload.cgi" method="post" enctype="multipart/form-data">
+    Author: <input type="text" name="author" id="author"></br>
+    Title: <input type="text" name="title" id="title"></br>
+    Select file to upload:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="submit" value="Upload file" name="submit">
+</form>
+
+{/block}

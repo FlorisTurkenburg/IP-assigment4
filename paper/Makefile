@@ -9,7 +9,7 @@ clean:
 	rm -f paperclient.o paperserver_clnt.o paperserver_xdr.o paperserver_svc.o \
 	paperserver.o paperserver_clnt.c paperserver.h paperserver_xdr.c \
 	paperserver_svc.c paperclient paperserver ../web/cgi-bin/papers.cgi papers.o ../web/cgi-bin/paperinfo.cgi \
-	paperinfo.o ../web/cgi-bin/paperview.cgi paperview.o ../web/cgi-bin/paperload.cgi paperload.o
+	paperinfo.o ../web/cgi-bin/paperview.cgi paperview.o ../web/cgi-bin/paperload.cgi paperload.o getcgivars.o
 
 
 papers.cgi: papers.o paperserver_clnt.o paperserver_xdr.o 

@@ -64,11 +64,11 @@ char **getcgivars() {
     }
     else if (!strcmp(request_method, "POST")) {
         /* strcasecmp() is not supported in Windows-- use strcmpi() instead */
-        if ( strcasecmp(getenv("CONTENT_TYPE"), "application/x-www-form-urlencoded")) {
-        printf("Content-Type: text/plain\n\n") ;
-            printf("getcgivars(): Unsupported Content-Type.\n") ;
-            exit(1) ;
-        }
+        // if ( strcasecmp(getenv("CONTENT_TYPE"), "application/x-www-form-urlencoded")) {
+        // printf("Content-Type: text/plain\n\n") ;
+        //     printf("getcgivars(): Unsupported Content-Type: %s\n", getenv("CONTENT_TYPE")) ;
+        //     exit(1) ;
+        // }
         if ( !(content_length = atoi(getenv("CONTENT_LENGTH"))) ) {
         printf("Content-Type: text/plain\n\n") ;
             printf("getcgivars(): No Content-Length was sent with the POST request.\n") ;
@@ -85,12 +85,20 @@ char **getcgivars() {
             exit(1) ;
         }
         cgiinput[content_length]='\0' ;
+
+        // printf("%s\n", cgiinput);
     }
     else {
     printf("Content-Type: text/plain\n\n") ;
         printf("getcgivars(): Unsupported REQUEST_METHOD.\n") ;
         exit(1) ;
     }
+    
+    FILE *fp;
+    fp = fopen("/tmp/log.txt", "w+");
+    fputs(strdup(cgiinput), fp);
+    fclose(fp);
+    exit(1);
 
     /** Change all plusses back to spaces. **/
     for (i=0; cgiinput[i]; i++) if (cgiinput[i] == '+') cgiinput[i] = ' ' ;

@@ -61,6 +61,8 @@ void add_article(char *author, char *title, char *filename) {
 int main(int argc, char **argv) {
     char **cgivars;
     char *author;
+    char *title;
+    char *file;
 
     if (strcmp(getenv("REQUEST_METHOD"), "POST")) {
         exit(1);
@@ -78,12 +80,37 @@ int main(int argc, char **argv) {
     
     cgivars = getcgivars();
     int i;
-    for (i = 0; cgivars[i]; i += 2) {
-        if (!strcmp(cgivars[i], "id")) {
-            fetch_article(strdup(cgivars[i+1]));
-            break;
-        }
-    }
+    // for (i = 0; cgivars[i]; i += 2) {
+    //     if (!strcmp(cgivars[i], "author")) {
+    //         author = strdup(cgivars[i+1]);
+    //     }
+    //     else if (!strcmp(cgivars[i], "title")) {
+    //         title = strdup(cgivars[i+1]);
+    //     }
+    //     else if (!strcmp(cgivars[i], "file")) {
+    //         file = strdup(cgivars[i+1]);
+    //     }
+    // }
+    //add_article(author, title, file);
+    // printf("Content-type: text/html\n\n") ;
+    
+    // /** Finally, print out the complete HTML response page.         **/
+    // printf("<html>\n") ;
+    // printf("<head><title>CGI Results</title></head>\n") ;
+    // printf("<body>\n") ;
+    // printf("<h1>Hello, world.</h1>\n") ;
+    // printf("Your CGI input variables were:\n") ;
+    // printf("<ul>\n") ;
+    
+    // /** Print the CGI variables sent by the user.  Note the list of **/
+    // /**   variables alternates names and values, and ends in NULL.  **/
+    // for (i=0; cgivars[i]; i+= 2)
+    //     printf("<li>[%s] = [%s]\n", cgivars[i], cgivars[i+1]) ;
+        
+    // printf("</ul>\n") ;
+    // printf("</body>\n") ;
+    // printf("</html>\n") ;
+
     
     for (i = 0; cgivars[i]; i++) {
         free(cgivars[i]);
