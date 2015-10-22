@@ -2,12 +2,20 @@
 {block name="htitle" prepend}Hotel Book | {/block}
 {block name="content"}
 
-
-<!--<div class="alert alert-success" role="alert">-->
-    <!--<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>-->
-    <!--<span class="sr-only">Success:</span>-->
+{if $flash_msg && !$success }
+<div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
     {$flash_msg}
-<!--</div>-->
+</div>
+{/if}
+{if $flash_msg && $success}
+<div class="alert alert-success" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    {$flash_msg}
+</div>
+{/if}
 
 <h1>Book a room</h1>
         <br>
@@ -18,7 +26,4 @@
     <br><br>
     <input type="submit" value="Submit">
 </form>
-
-
-
 {/block}
