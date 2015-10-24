@@ -1,0 +1,11 @@
+    ./web/smarty/*
+    *.git*
+    *.tar.gz
+    *.zip
+    *.a
+    *.o
+    *.sw*
+    ./paper/*.pdf
+./ccgi/src/crypt.o
+./ccgi/src/prefork.o
+./ccgi/src/ccgi.o

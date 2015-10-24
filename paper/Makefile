@@ -3,12 +3,12 @@ CFLAGS = -g -Wall -Wextra -Wno-unused-parameter
 
 build: all
 
-all: paperclient paperserver papers.cgi paperinfo.cgi paperview.cgi paperload.cgi
+all: paperserver papers.cgi paperinfo.cgi paperview.cgi paperload.cgi
 
 clean:
-	rm -f paperclient.o paperserver_clnt.o paperserver_xdr.o paperserver_svc.o \
+	rm -f paperserver_clnt.o paperserver_xdr.o paperserver_svc.o \
 	paperserver.o paperserver_clnt.c paperserver.h paperserver_xdr.c \
-	paperserver_svc.c paperclient paperserver ../web/cgi-bin/papers.cgi papers.o ../web/cgi-bin/paperinfo.cgi \
+	paperserver_svc.c paperserver ../web/cgi-bin/papers.cgi papers.o ../web/cgi-bin/paperinfo.cgi \
 	paperinfo.o ../web/cgi-bin/paperview.cgi paperview.o ../web/cgi-bin/paperload.cgi paperload.o
 
 
@@ -24,17 +24,12 @@ paperload.cgi: paperload.o paperserver_clnt.o paperserver_xdr.o ../ccgi/libccgi.
 paperinfo.cgi: paperinfo.o paperserver_clnt.o paperserver_xdr.o ../ccgi/libccgi.a
 	$(CC) -o ../web/cgi-bin/paperinfo.cgi paperinfo.o paperserver_clnt.o paperserver_xdr.o -lnsl -lccgi
 
-paperclient: paperclient.o paperserver_clnt.o paperserver_xdr.o 
-	$(CC) -o paperclient paperclient.o paperserver_clnt.o paperserver_xdr.o -lnsl 
 
 paperserver: paperserver.o paperserver_svc.o paperserver_xdr.o
 	$(CC) -o paperserver paperserver.o paperserver_svc.o paperserver_xdr.o -lnsl 
 
 paperserver_clnt.c paperserver.h paperserver_xdr.c paperserver_svc.c: paperserver.x
 	rpcgen paperserver.x
-
-paperclient.o: paperclient.c paperserver.h
-	$(CC) $(CFLAGS) -c -o paperclient.o paperclient.c 
 
 papers.o: papers.c paperserver.h config.h
 	$(CC) $(CFLAGS) -c -o papers.o papers.c

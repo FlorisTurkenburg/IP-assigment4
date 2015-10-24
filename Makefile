@@ -2,6 +2,10 @@
 
 all: config web/smarty ccgi/libccgi.a paper hotel
 
+zip:
+	./mkexcludes.sh > excludes.lst
+	zip -r ../assignment4.zip * --exclude @excludes.lst
+
 config: web/config.php paper/config.h
 
 %/config.php: config.ini

@@ -118,3 +118,12 @@ $ make
 ```
 
 You are all set!
+
+# Prepare assignment for submission
+For your convenience, a Makefile rule has been added to create the zip file you should submit for this assignment. Just run the following command to have a zip file created for you.
+
+```
+make zip
+```
+
+The archive will exclude many unwanted files, such as object files, compiled classes, the smarty directory etc. If you want to have additional unwanted files excluded, just edit the [mkexcludes.sh](mkexcludes.sh) script accordingly.
