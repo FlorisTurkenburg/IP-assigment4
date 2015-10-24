@@ -31,7 +31,7 @@ void add_article(char *author, char *title, char *tmp_filename, char *filename) 
     if (fp == NULL) {
         // sprintf(reason, "Error when opening file %s", strerror(errno));
         redirect_vars = CGI_add_var(NULL, "reason", "Error when opening file");
-        printf("Location: %s%s%s\n\n", WEB_BASEPHP, "/papererror.php?", CGI_encode_varlist(redirect_vars, NULL));
+        printf("Status: 303\nLocation: %s%s%s\n\n", WEB_BASEPHP, "/papererror.php?", CGI_encode_varlist(redirect_vars, NULL));
         CGI_free_varlist(redirect_vars);
 
         // perror("Error when opening file");
@@ -53,7 +53,7 @@ void add_article(char *author, char *title, char *tmp_filename, char *filename) 
     if (in->content.content_len == 0) {
         // sprintf(reason, "Error while reading file %s", strerror(errno));
         redirect_vars = CGI_add_var(NULL, "reason", "Error while reading file");
-        printf("Location: %s%s%s\n\n", WEB_BASEPHP, "/papererror.php?", CGI_encode_varlist(redirect_vars, NULL));
+        printf("Status: 303\nLocation: %s%s%s\n\n", WEB_BASEPHP, "/papererror.php?", CGI_encode_varlist(redirect_vars, NULL));
         CGI_free_varlist(redirect_vars);
         // perror("Error while reading");
         fclose(fp);
@@ -65,10 +65,13 @@ void add_article(char *author, char *title, char *tmp_filename, char *filename) 
 
 
     num = add_1(in, cl);
-    redirect_vars = CGI_add_var(NULL, "id", num);
-    redirect_vars = CGI_add_var(redirect_vars, "new", "success");
-    printf("Location: %s%s%s\n\n", WEB_BASEPHP, "/paperinfo.php?", CGI_encode_varlist(redirect_vars, NULL));
-    CGI_free_varlist(redirect_vars);
+    // char *query_string = CGI_encode_query(NULL, "id", *num, "new", "success", 0);
+    // redirect_vars = CGI_add_var(NULL, "id", (char*)*num);
+    // redirect_vars = CGI_add_var(redirect_vars, "new", "success");
+    // printf("Status: 303\nLocation: %s%s%s\n\n", WEB_BASEPHP, "/paperinfo.php?", query_string);
+    // printf("Status: 303\nLocation: %s%s%s\n\n", WEB_BASEPHP, "/paperinfo.php?", CGI_encode_varlist(redirect_vars, NULL));
+    printf("Status: 303\nLocation: %s%sid=%ld&new=success\n\n", WEB_BASEPHP, "/paperinfo.php?", *num);
+    // CGI_free_varlist(redirect_vars);
     // printf("%ld\n", *num);
     free(in->content.content_val);
     free(in);
@@ -92,7 +95,7 @@ int main(int argc, char **argv) {
     if (cl == NULL) {
         // sprintf(reason, "Error creating RPC client %s", strerror(errno));
         redirect_vars = CGI_add_var(NULL, "reason", "Error creating RPC client");
-        printf("Location: %s%s%s\n\n", WEB_BASEPHP, "/papererror.php?", CGI_encode_varlist(redirect_vars, NULL));
+        printf("Status: 303\nLocation: %s%s%s\n\n", WEB_BASEPHP, "/papererror.php?", CGI_encode_varlist(redirect_vars, NULL));
 
         // perror("Error creating RPC client!");
         CGI_free_varlist(redirect_vars);
@@ -107,7 +110,7 @@ int main(int argc, char **argv) {
     value = CGI_lookup_all(varlist, "fileToUpload");
     if (value == 0 || value[1] == 0) {
         redirect_vars = CGI_add_var(NULL, "reason", "No file was uploaded");
-        printf("Location: %s%s%s\n\n", WEB_BASEPHP, "/papererror.php?", CGI_encode_varlist(redirect_vars, NULL));
+        printf("Status: 303\nLocation: %s%s%s\n\n", WEB_BASEPHP, "/papererror.php?", CGI_encode_varlist(redirect_vars, NULL));
         CGI_free_varlist(redirect_vars);
         // fputs("No file was uploaded\r\n", stdout);
     }
