@@ -1,0 +1,11 @@
+Q-A:
+An alternative solution would be to use a database to store the papers and communicate with said database by for example SQL instructions.
+
+Q-B:
+The pros of producing the output in JSON format instead of HTML is that if one would want to change the layout of the page, the CGI needs to be changed accordingly. Also, the CGI will contain a lot of static print statements to produce the HTML, which is often unwanted. A con of having a CGI producing JSON is that a separate PHP frontend is required to parse the JSON and produce the corresponding HTML.
+
+Q-C:
+It is not possible to implement the paperload.cgi with only the GET method, because query strings have a limited possible size, and the document to upload can be of arbitrary size.
+
+Q-D:
+Post/Redirect/Get pattern prevents duplicate form data submissions when the user refreshes the page.
